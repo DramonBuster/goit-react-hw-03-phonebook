@@ -67,6 +67,21 @@ class Phonebook extends Component {
         const { contacts, filter } = this.state;
         return contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
     }
+  
+    componentDidMount() {
+        const contacts = localStorage.getItem('contacts');
+        const parsedContacts = JSON.parse(contacts);
+        if (parsedContacts) {
+        this.setState({ contacts: parsedContacts });
+        }
+    }
+
+    componentDidUpdate(prevPops, prevState) {
+        const { contacts} = this.state;
+        if (contacts !== prevState.contacts) {
+        localStorage.setItem('contacts', JSON.stringify(contacts));
+        }
+    }
 
     render() {
         const { filter } = this.state;
